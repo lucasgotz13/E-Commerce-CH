@@ -1,7 +1,7 @@
-
 const interruptorModoOscuro = document.querySelector(".interruptor");
 const interruptorSvg = document.querySelector(".svg-interruptor");
 const carritoDeComprasSvg = document.querySelector(".shopping-cart-svg");
+const productosDiv = document.querySelector(".productos");
 
 // funcionalidad modo oscuro
 
@@ -29,6 +29,8 @@ interruptorModoOscuro.addEventListener("click", () => {
     }
 });
 
+// Carrousel
+
 const swiper = new Swiper('.swiper', {
     loop: true,
 
@@ -41,3 +43,63 @@ const swiper = new Swiper('.swiper', {
         prevEl: '.swiper-button-prev'
     }, 
 });
+
+// Renderización de productos
+
+const ARRAY_PRODUCTOS = [
+    {
+        nombre: "Remera Azul Braavosi Good",
+        precio: 3200,
+        oferta: false,
+        imagen: "assets/braavosi.jpg"
+    },
+    {
+        nombre: "Buzo Verde Polo",
+        precio: 5429,
+        oferta: true,
+        imagen: "assets/buzo-polo.jpg" 
+    }, 
+    {
+        nombre: "Pantalon Beige Gabucci Gabardo",
+        precio: 8549,
+        oferta: false,
+        imagen: "assets/gabucci-pantalon.jpg"
+    },
+    {
+        nombre: "Ojota Blanca Fila Drifter Basic",
+        precio: 9499,
+        oferta: true,
+        imagen: "assets/zapatillas-fila.jpg"
+    }
+]
+
+// ARRAY_PRODUCTOS.forEach(producto => {
+//     producto.oferta ? console.log(producto.precio * 0.9) : console.log(producto.precio)
+// })
+
+ARRAY_PRODUCTOS.forEach(producto => {
+    const divCard = document.createElement("div");
+    divCard.classList.add("card")
+
+    const imgProducto = document.createElement("img");
+    imgProducto.src = producto.imagen
+    imgProducto.alt = producto.nombre
+    divCard.appendChild(imgProducto)
+
+    const nombreProducto = document.createElement("p");
+    nombreProducto.textContent = producto.nombre;
+    divCard.appendChild(nombreProducto)
+
+    const precioProducto = document.createElement("p")
+    precioProducto.textContent = producto.oferta ? "$" + producto.precio * 0.75 : "$" + producto.precio
+    divCard.appendChild(precioProducto)
+    
+    const añadirCarritoBoton = document.createElement("button")
+    añadirCarritoBoton.textContent = "Añadir al carrito"
+    añadirCarritoBoton.classList.add("boton-añadir-carrito")
+    divCard.appendChild(añadirCarritoBoton)
+
+    productosDiv.appendChild(divCard)
+    
+})
+
