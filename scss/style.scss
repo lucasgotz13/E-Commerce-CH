@@ -92,6 +92,11 @@ li {
     }
 }
 
+@media screen and (max-width: 768px) {
+    .swiper {
+        height: 300px;
+    }    
+} 
 .productos {
     padding: 20px;
     display: flex;

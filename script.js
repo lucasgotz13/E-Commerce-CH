@@ -46,7 +46,7 @@ const swiper = new Swiper('.swiper', {
 
 // Renderización de productos
 
-const ARRAY_PRODUCTOS = [
+const arrayProductos = JSON.stringify([
     {
         nombre: "Remera Azul Braavosi Good",
         precio: 3200,
@@ -71,13 +71,12 @@ const ARRAY_PRODUCTOS = [
         oferta: true,
         imagen: "assets/zapatillas-fila.jpg"
     }
-]
+])
 
-// ARRAY_PRODUCTOS.forEach(producto => {
-//     producto.oferta ? console.log(producto.precio * 0.9) : console.log(producto.precio)
-// })
+localStorage.setItem("productos", arrayProductos)
 
-ARRAY_PRODUCTOS.forEach(producto => {
+
+JSON.parse(localStorage.getItem("productos")).forEach(producto => {
     const divCard = document.createElement("div");
     divCard.classList.add("card")
 
@@ -102,4 +101,3 @@ ARRAY_PRODUCTOS.forEach(producto => {
     productosDiv.appendChild(divCard)
     
 })
-
