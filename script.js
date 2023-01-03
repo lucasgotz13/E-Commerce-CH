@@ -90,7 +90,7 @@ JSON.parse(localStorage.getItem("productos")).forEach(producto => {
     divCard.appendChild(nombreProducto)
 
     const precioProducto = document.createElement("p")
-    precioProducto.textContent = producto.oferta ? "$" + producto.precio * 0.75 : "$" + producto.precio
+    precioProducto.innerHTML = `<p><span style='text-decoration: line-through; color: red'>${producto.oferta ? "$" + producto.precio : ""}</span> $${producto.oferta ? Math.round(producto.precio * 0.75) : producto.precio}</p>`
     divCard.appendChild(precioProducto)
     
     const añadirCarritoBoton = document.createElement("button")
@@ -101,3 +101,4 @@ JSON.parse(localStorage.getItem("productos")).forEach(producto => {
     productosDiv.appendChild(divCard)
     
 })
+

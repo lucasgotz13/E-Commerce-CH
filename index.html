@@ -32,7 +32,6 @@
             </div>
         </nav>
         <hr />
-
         <main>
             <div class="swiper">
                 <div class="swiper-wrapper">
@@ -45,12 +44,53 @@
                 <div class="swiper-button-next"></div>
             </div>
             <hr>
-
+            <h3 class="productos-destacados">PRODUTOS DESTACADOS</h3>
             <div class="productos"></div>
-            <div class="carrito"></div>
         </main>
 
+        <section class="redes-sociales" id="redes"> 
+            <h1>Siguenos en nuestras redes para saber sobre los últimos lanzamientos</h1>
+            <i class="fa-brands fa-instagram fa-2x"> <span>@Gotz.shop</span></i>
+            <i class="fa-brands fa-twitter fa-2x" style="color: #1DA1F2"> <span>@Gotz_shop</span></i>
+        </section>
+
+        <footer>
+            <div class="lado-izquierdo">
+                <p>Más información</p>
+                <ul>
+                    <li>Quienes somos</li>
+                    <li>Noticias</li>
+                    <li><a href="#redes">Nuestras redes</a></li>
+                </ul>
+            </div>
+            <div class="lado-derecho">
+                <p>Contactanos en caso de alguna consulta: </p>
+                <form>
+                    <label for="nombre">Nombre:
+                        <br>
+                        <input type="text" name="nombre" id="nombre">
+                    </label>
+                    <label for="email">E-mail:
+                        <br>
+                        <input type="text" name="email" id="email">
+                    </label>
+                    <label for="consulta">Consulta:
+                        <br>
+                        <textarea name="consulta" id="consulta" cols="30" rows="5"></textarea>
+                    </label>
+                    <div class="contacto">
+                        <h4>Contacto:</h4> 
+                        <p>Teléfono: +54 9 11 1234-5678</p>
+                        <p>Dirección: Av. Libertador 1111</p>
+                        <p>E-mail: soporte@gotzshop.com.ar</p>
+                    </div>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+        </footer>
+
         <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-        <script src="script.js" type="module"></script>
+        <script src="https://kit.fontawesome.com/cf2a189f0a.js" crossorigin="anonymous"></script> 
+        <script src="script.js"></script>
     </body>
 </html>
