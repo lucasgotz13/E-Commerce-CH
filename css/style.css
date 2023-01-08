@@ -18,7 +18,7 @@
 }
 
 .darkmode {
-  --color-primario: /*#01010f*/ #111111;
+  --color-primario: #111111;
   --color-secundario: #FFFFFF;
   --accent-color: #040411;
   --accent-secondary-color: #2E2E2E;
@@ -166,6 +166,7 @@ li span {
   color: var(--color-primario);
   padding: 50px;
   text-align: center;
+  transition: all 0.5s ease;
 }
 .redes-sociales h1 {
   margin-bottom: 25px;
@@ -183,14 +184,35 @@ footer {
   background-color: var(--color-primario);
   color: var(--color-secundario);
   display: flex;
-  align-items: center;
   justify-content: space-evenly;
+  transition: all 0.5s ease;
+}
+footer .lado-izquierdo {
+  margin-top: 20px;
+}
+footer .lado-izquierdo p {
+  text-align: center;
+  font-size: 16pt;
+  margin-bottom: 60px;
+  font-weight: 700;
+}
+footer .lado-izquierdo ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
 }
 footer .lado-derecho {
   margin-top: 20px;
 }
 footer .lado-derecho p {
   margin-bottom: 10px;
+}
+footer .lado-derecho .mensaje-contacto {
+  font-size: 16pt;
+  font-weight: 700;
 }
 footer .lado-derecho form {
   display: grid;
@@ -220,17 +242,47 @@ footer .lado-derecho form label input:focus {
 footer .lado-derecho form label textarea {
   margin-top: 5px;
   padding: 5px;
-  border: none;
+  border: 1px solid var(--color-secundario);
   border-radius: 5px;
-  background-color: var(--form-color-primario);
+  background: transparent;
   color: var(--color-secundario);
   font-size: 12pt;
   outline: none;
 }
 
-@media screen and (max-width: 678px) {
+.contacto {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.contacto #heading-contacto {
+  margin-bottom: 10px;
+}
+
+form > button {
+  max-width: 100px;
+  margin: 10px auto;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--color-secundario);
+  color: var(--color-primario);
+  font-weight: bold;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+form > button:active {
+  background-color: var(--color-primario);
+  color: var(--color-secundario);
+}
+
+@media screen and (max-width: 1000px) {
   footer {
     flex-direction: column;
+  }
+  footer .lado-izquierdo p {
+    margin-bottom: 20px;
   }
   footer .lado-derecho p {
     text-align: center;
@@ -254,16 +306,6 @@ footer .lado-derecho form label textarea {
     margin-top: 5px;
     max-width: 300px;
   }
-}
-form > button {
-  max-width: 100px;
-}
-
-.contacto {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
 
 /*# sourceMappingURL=style.css.map */

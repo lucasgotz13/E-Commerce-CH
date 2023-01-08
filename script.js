@@ -2,6 +2,8 @@ const interruptorModoOscuro = document.querySelector(".interruptor");
 const interruptorSvg = document.querySelector(".svg-interruptor");
 const carritoDeComprasSvg = document.querySelector(".shopping-cart-svg");
 const productosDiv = document.querySelector(".productos");
+const main = document.querySelector("main")
+const textoProductos = document.querySelector("#nav-productos-texto");
 
 // funcionalidad modo oscuro
 
@@ -33,6 +35,10 @@ interruptorModoOscuro.addEventListener("click", () => {
 
 const swiper = new Swiper('.swiper', {
     loop: true,
+    autoplay: {
+        delay: 3000,
+        disableOnInteraction: false,
+    },
 
     pagination: {
         el: '.swiper-pagination'
@@ -100,5 +106,9 @@ JSON.parse(localStorage.getItem("productos")).forEach(producto => {
 
     productosDiv.appendChild(divCard)
     
+})
+
+textoProductos.addEventListener("click", () => {
+    main.innerHTML = "";
 })
 
