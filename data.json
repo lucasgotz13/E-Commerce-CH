@@ -1,0 +1,52 @@
+{
+    "productos": [
+    {
+        "nombre": "Remera Azul Braavosi Good",
+        "precio": 3200,
+        "oferta": false,
+        "imagen": "assets/braavosi.jpg"
+    },
+    {
+        "nombre": "Buzo Verde Polo",
+        "precio": 5429,
+        "oferta": true,
+        "imagen": "assets/buzo-polo.jpg" 
+    }, 
+    {
+        "nombre": "Pantalon Beige Gabucci Gabardo",
+        "precio": 8549,
+        "oferta": false,
+        "imagen": "assets/gabucci-pantalon.jpg"
+    },
+    {
+        "nombre": "Ojota Blanca Fila Drifter Basic",
+        "precio": 9499,
+        "oferta": true,
+        "imagen": "assets/zapatillas-fila.jpg"
+    },
+    {
+        "nombre": "Pantalon Beige Gabucci Gabardo",
+        "precio": 8549,
+        "oferta": true,
+        "imagen": "assets/gabucci-pantalon.jpg"
+    },
+    {
+        "nombre": "Pantalon Beige Gabucci Gabardo",
+        "precio": 8549,
+        "oferta": false,
+        "imagen": "assets/gabucci-pantalon.jpg"
+    },
+    {
+        "nombre": "Pantalon Beige Gabucci Gabardo",
+        "precio": 8549,
+        "oferta": true,
+        "imagen": "assets/gabucci-pantalon.jpg"
+    },
+    {
+        "nombre": "Pantalon Beige Gabucci Gabardo",
+        "precio": 8549,
+        "oferta": false,
+        "imagen": "assets/gabucci-pantalon.jpg"
+    }
+]
+} 
