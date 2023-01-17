@@ -50,63 +50,42 @@ const swiper = new Swiper('.swiper', {
     }, 
 });
 
-// Renderización de productos
+// renderizacion productos home
 
-const arrayProductos = JSON.stringify([
-    {
-        nombre: "Remera Azul Braavosi Good",
-        precio: 3200,
-        oferta: false,
-        imagen: "assets/braavosi.jpg"
-    },
-    {
-        nombre: "Buzo Verde Polo",
-        precio: 5429,
-        oferta: true,
-        imagen: "assets/buzo-polo.jpg" 
-    }, 
-    {
-        nombre: "Pantalon Beige Gabucci Gabardo",
-        precio: 8549,
-        oferta: false,
-        imagen: "assets/gabucci-pantalon.jpg"
-    },
-    {
-        nombre: "Ojota Blanca Fila Drifter Basic",
-        precio: 9499,
-        oferta: true,
-        imagen: "assets/zapatillas-fila.jpg"
-    }
-])
+getData()
+    .then(data => {
+        const productos = data.productos
+        productos.forEach(producto => {
+            if (producto.id < 5) {
+                const divCard = document.createElement("div");
+                divCard.classList.add("card")
+                divCard.setAttribute("data-id", producto.id)
 
-localStorage.setItem("productos", arrayProductos)
+                const imgProducto = document.createElement("img");
+                imgProducto.src = producto.imagen
+                imgProducto.alt = producto.nombre
+                divCard.appendChild(imgProducto)
 
+                const nombreProducto = document.createElement("p");
+                nombreProducto.textContent = producto.nombre;
+                divCard.appendChild(nombreProducto)
 
-JSON.parse(localStorage.getItem("productos")).forEach(producto => {
-    const divCard = document.createElement("div");
-    divCard.classList.add("card")
-
-    const imgProducto = document.createElement("img");
-    imgProducto.src = producto.imagen
-    imgProducto.alt = producto.nombre
-    divCard.appendChild(imgProducto)
-
-    const nombreProducto = document.createElement("p");
-    nombreProducto.textContent = producto.nombre;
-    divCard.appendChild(nombreProducto)
-
-    const precioProducto = document.createElement("p")
-    precioProducto.innerHTML = `<p><span style='text-decoration: line-through; color: red'>${producto.oferta ? "$" + producto.precio : ""}</span> $${producto.oferta ? Math.round(producto.precio * 0.75) : producto.precio}</p>`
-    divCard.appendChild(precioProducto)
+                const precioProducto = document.createElement("p")
+                precioProducto.innerHTML = `<p><span style='text-decoration: line-through; color: red'>${producto.oferta ? "$" + producto.precio : ""}</span> $${producto.oferta ? Math.round(producto.precio * 0.75) : producto.precio}</p>`
+                divCard.appendChild(precioProducto)
     
-    const añadirCarritoBoton = document.createElement("button")
-    añadirCarritoBoton.textContent = "Añadir al carrito"
-    añadirCarritoBoton.classList.add("boton-añadir-carrito")
-    divCard.appendChild(añadirCarritoBoton)
+                const añadirCarritoBoton = document.createElement("button")
+                añadirCarritoBoton.textContent = "Añadir al carrito"
+                añadirCarritoBoton.classList.add("boton-añadir-carrito")
+                añadirCarritoBoton.addEventListener("click", (e) => añadirAlCarrito(e))
+                divCard.appendChild(añadirCarritoBoton)
 
-    productosDiv.appendChild(divCard)
-    
-})
+                productosDiv.appendChild(divCard)
+            }           
+        })
+    })
+
+// página productos
 
 function renderNavProductos(valorCheckbox, valorOrdenSelect) {
     const tituloOfertas = document.createElement("h1")
@@ -372,6 +351,8 @@ function renderData(data) {
     productos.forEach(producto => {
         const productoDiv = document.createElement("div")
         productoDiv.classList.add("card")
+        // add a data attribute to the div
+        productoDiv.setAttribute("data-id", producto.id)
 
         const nombreProducto = producto.nombre
         const precioProducto = producto.precio
@@ -396,10 +377,65 @@ function renderData(data) {
         const añadirCarritoBoton = document.createElement("button")
         añadirCarritoBoton.textContent = "Añadir al carrito"
         añadirCarritoBoton.classList.add("boton-añadir-carrito")
+        añadirCarritoBoton.addEventListener("click", (e) => añadirAlCarrito(e))
         productoDiv.appendChild(añadirCarritoBoton)
         
         productosDiv.appendChild(productoDiv)
     })
     main.appendChild(productosDiv)
 }
+
+// seccion y funcionalidad carrito de compras
+
+let carrito = []
+
+function añadirAlCarrito(e) {
+
+    const productoSeleccionado = e.target.closest(".card")
+    console.log(productoSeleccionado.dataset.id)
+
+    if (localStorage.getItem("carrito") == null) {
+        getData()
+            .then(data => {
+                const producto = data.productos.find(producto => producto.id == productoSeleccionado.dataset.id)
+                carrito.push(producto)
+                console.log(carrito)
+            }) 
+            .then(() => localStorage.setItem("carrito", JSON.stringify(carrito)))     
+    } else {
+        carrito = JSON.parse(localStorage.getItem("carrito"))
+
+        getData()
+            .then(data => {
+                const producto = data.productos.find(producto => producto.id == productoSeleccionado.dataset.id)
+                carrito.push(producto)
+                console.log(carrito)
+            })
+            .then(() => localStorage.setItem("carrito", JSON.stringify(carrito)))
+    } 
+    
+    Toastify({
+
+        text: "Producto añadido al carrito",
+        duration: 3000,
+        close: true,
+        style: {
+            background: "#0CBF50"
+        }
+
+    }).showToast();
+}
+
+carritoDeComprasSvg.addEventListener("click", () => {
+    main.innerHTML = ""
+    
+    const divCarrito = document.createElement("div")
+    divCarrito.classList.add("carrito-div")
+    main.appendChild(divCarrito)
+
+    const tituloCarrito = document.createElement("h1")
+    tituloCarrito.textContent = "Tu carrito"
+    divCarrito.appendChild(tituloCarrito)
+})
+
 
