@@ -436,6 +436,77 @@ carritoDeComprasSvg.addEventListener("click", () => {
     const tituloCarrito = document.createElement("h1")
     tituloCarrito.textContent = "Tu carrito"
     divCarrito.appendChild(tituloCarrito)
+
+    const divProductosCarrito = document.createElement("div")
+    divProductosCarrito.classList.add("carrito-productos-div")
+    divCarrito.appendChild(divProductosCarrito)
+
+    renderProductosCarrito(divProductosCarrito)
 })
+
+function renderProductosCarrito(div) {
+    JSON.parse(localStorage.getItem("carrito")).forEach(producto => {
+        const divProductoIndividual = document.createElement("div")
+        divProductoIndividual.classList.add("carrito-producto-individual")
+
+        const productoIndividualImg = document.createElement("img")
+        productoIndividualImg.src = producto.imagen
+        productoIndividualImg.alt = producto.nombre
+        divProductoIndividual.appendChild(productoIndividualImg)
+
+        const productoInformacionDiv = document.createElement("div")
+        productoInformacionDiv.classList.add("carrito-informacion-producto")
+        divProductoIndividual.appendChild(productoInformacionDiv)
+
+        const productoIndividualNombre = document.createElement("p")
+        productoIndividualNombre.id = "nombre-producto"
+        productoIndividualNombre.textContent = producto.nombre
+        productoInformacionDiv.appendChild(productoIndividualNombre)
+
+        const divPrecioEliminar = document.createElement("div")
+        productoInformacionDiv.appendChild(divPrecioEliminar)
+
+        const productoIndividualBoton = document.createElement("button")
+        productoIndividualBoton.textContent = "Eliminar"
+        productoIndividualBoton.classList.add("boton-eliminar-producto")
+        productoIndividualBoton.addEventListener("click", (e) => eliminarProducto(e))
+        divPrecioEliminar.appendChild(productoIndividualBoton)
+
+        const productoIndividualPrecio = document.createElement("p")
+        productoIndividualPrecio.innerHTML = `<span style='text-decoration: line-through; color: red'>${producto.oferta ? "$" + producto.precio : ""}</span> $${producto.oferta ? Math.round(producto.precio * 0.75) : producto.precio}`
+        productoIndividualPrecio.id = "precio-producto" 
+        divPrecioEliminar.appendChild(productoIndividualPrecio)
+
+        
+        div.appendChild(divProductoIndividual) 
+    })
+}
+
+function eliminarProducto(e) {
+    const productoAEliminar = e.target.closest(".carrito-producto-individual")
+    console.log(productoAEliminar)
+    const productoAEliminarId = productoAEliminar.querySelector("#nombre-producto").textContent
+    console.log(productoAEliminarId)
+
+    const carritoActual = JSON.parse(localStorage.getItem("carrito"))
+    const carritoActualizado = carritoActual.filter(producto => producto.nombre != productoAEliminarId)
+    console.log(carritoActualizado)
+    localStorage.setItem("carrito", JSON.stringify(carritoActualizado))
+    // dont reload page
+    main.innerHTML = ""
+    const divCarrito = document.createElement("div")
+    divCarrito.classList.add("carrito-div")
+    main.appendChild(divCarrito)
+
+    const tituloCarrito = document.createElement("h1")
+    tituloCarrito.textContent = "Tu carrito"
+    divCarrito.appendChild(tituloCarrito)
+
+    const divProductosCarrito = document.createElement("div")
+    divProductosCarrito.classList.add("carrito-productos-div")
+    divCarrito.appendChild(divProductosCarrito)
+
+    renderProductosCarrito(divProductosCarrito)
+}
 
 
