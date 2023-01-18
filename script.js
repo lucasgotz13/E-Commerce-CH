@@ -442,6 +442,34 @@ carritoDeComprasSvg.addEventListener("click", () => {
     divCarrito.appendChild(divProductosCarrito)
 
     renderProductosCarrito(divProductosCarrito)
+
+    if (JSON.parse(localStorage.getItem("carrito")).length !== 0) {
+        const divTotalCarrito = document.createElement("div")
+        divTotalCarrito.classList.add("carrito-total-div")
+
+        const textoPrecioTotal = document.createElement("p")
+        textoPrecioTotal.innerHTML = `<span>Precio total: </span>$${Math.round(calcularPrecioTotal())}`
+        divTotalCarrito.appendChild(textoPrecioTotal)
+
+        const botonPagar = document.createElement("button")
+        botonPagar.textContent = "Pagar"
+        botonPagar.classList.add("boton-pagar")
+        botonPagar.addEventListener("click", () => {
+            main.innerHTML = ""
+            renderInputsTarjeta()
+        })
+        divTotalCarrito.appendChild(botonPagar)
+
+        divCarrito.appendChild(divTotalCarrito)
+    } else {
+        const textoCarritoVacio = document.createElement("p")
+        textoCarritoVacio.classList.add("texto-carrito-vacio")
+        textoCarritoVacio.textContent = "Tu carrito está vacío"
+        divCarrito.appendChild(textoCarritoVacio)
+    }
+
+
+    
 })
 
 function renderProductosCarrito(div) {
@@ -492,7 +520,7 @@ function eliminarProducto(e) {
     const carritoActualizado = carritoActual.filter(producto => producto.nombre != productoAEliminarId)
     console.log(carritoActualizado)
     localStorage.setItem("carrito", JSON.stringify(carritoActualizado))
-    // dont reload page
+    
     main.innerHTML = ""
     const divCarrito = document.createElement("div")
     divCarrito.classList.add("carrito-div")
@@ -505,8 +533,159 @@ function eliminarProducto(e) {
     const divProductosCarrito = document.createElement("div")
     divProductosCarrito.classList.add("carrito-productos-div")
     divCarrito.appendChild(divProductosCarrito)
+    console.log(JSON.parse(localStorage.getItem("carrito")))
 
     renderProductosCarrito(divProductosCarrito)
+
+    if (JSON.parse(localStorage.getItem("carrito")).length !== 0) {
+        const divTotalCarrito = document.createElement("div")
+        divTotalCarrito.classList.add("carrito-total-div")
+
+        const textoPrecioTotal = document.createElement("p")
+        textoPrecioTotal.innerHTML = `<span>Precio total:</span> ${Math.round(calcularPrecioTotal())}`
+        divTotalCarrito.appendChild(textoPrecioTotal)
+
+        const botonPagar = document.createElement("button")
+        botonPagar.textContent = "Pagar"
+        botonPagar.classList.add("boton-pagar")
+        botonPagar.addEventListener("click", () => {
+            main.innerHTML = ""
+            renderInputsTarjeta()
+        })
+        divTotalCarrito.appendChild(botonPagar)
+
+        divCarrito.appendChild(divTotalCarrito)
+    } else {
+        const textoCarritoVacio = document.createElement("p")
+        textoCarritoVacio.classList.add("texto-carrito-vacio")
+        textoCarritoVacio.textContent = "Tu carrito está vacío"
+        divCarrito.appendChild(textoCarritoVacio)
+    }
 }
+
+function calcularPrecioTotal() {
+    const productosCarrito = JSON.parse(localStorage.getItem("carrito"))
+    let precioTotal = 0
+    productosCarrito.forEach(producto => {
+        if (producto.oferta) {
+            precioTotal += producto.precio * 0.75 
+        } else {
+            precioTotal += producto.precio
+        }
+    })
+    console.log(precioTotal)
+    return precioTotal
+}
+
+function renderInputsTarjeta() {
+    const tituloInputsTarjeta = document.createElement("h1")
+    tituloInputsTarjeta.id = "titulo-input-tarjeta"
+    tituloInputsTarjeta.textContent = "Ingrese los datos de su tarjeta: "
+    main.appendChild(tituloInputsTarjeta)
+
+    const divInputsTarjeta = document.createElement("div")
+    divInputsTarjeta.classList.add("div-input-tarjeta")
+
+    let nombreValidado = false;
+    let tarjetaValidada = false;
+    let fechaValidado = false;
+    let codigoValidado = false;
+
+    const labelNombreApellido = document.createElement("label")
+    labelNombreApellido.htmlFor = "nombre-apellido"
+    labelNombreApellido.textContent = "Nombre completo: "
+    divInputsTarjeta.appendChild(labelNombreApellido)
+
+    const inputNombreApellido = document.createElement("input")
+    inputNombreApellido.placeholder = "Nombre y apellido completo"
+    inputNombreApellido.oninput = () => {
+        if (inputNombreApellido.value.length > 32 || inputNombreApellido.value.length <= 4 || inputNombreApellido.value === "") {
+            inputNombreApellido.style.borderBottom = "3px solid red"
+            nombreValidado = false;
+        } else {
+            inputNombreApellido.style.borderBottom = "3px solid #0CBF50"
+            nombreValidado = true
+        }
+    }
+    divInputsTarjeta.appendChild(inputNombreApellido)
+
+    const labelTarjeta = document.createElement("label")
+    labelTarjeta.htmlFor = "numero-tarjeta"
+    labelTarjeta.textContent = "Numero de tarjeta: "
+    divInputsTarjeta.appendChild(labelTarjeta)
+
+    const inputTarjeta = document.createElement("input")
+    inputTarjeta.placeholder = "Numero de tarjeta"
+    inputTarjeta.oninput = () => {
+        if (inputTarjeta.value.length !== 16 || inputTarjeta.value === "" || isNaN(inputTarjeta.value) === true) {
+            inputTarjeta.style.borderBottom = "3px solid red"
+            tarjetaValidada = false
+        } else {
+            inputTarjeta.style.borderBottom = "3px solid #0CBF50"
+            tarjetaValidada = true
+        }
+    }
+    divInputsTarjeta.appendChild(inputTarjeta)
+
+    const labelFechaExpiracion = document.createElement("label")
+    labelFechaExpiracion.htmlFor = "fecha-expiracion"
+    labelFechaExpiracion.textContent = "Fecha de expiración: "
+    divInputsTarjeta.appendChild(labelFechaExpiracion)
+
+    const inputFechaExpiracion = document.createElement("input")
+    inputFechaExpiracion.placeholder = "01/29"
+    inputFechaExpiracion.oninput = () => {
+        const regex = /^(0[1-9]|1[0-2])\/?([2-9][3-9])$/ 
+        if ( inputFechaExpiracion.value === "" || inputFechaExpiracion.value.length > 5 || regex.test(inputFechaExpiracion.value) === false) {
+            inputFechaExpiracion.style.borderBottom = "3px solid red"
+            fechaValidado = false
+        } else {
+            inputFechaExpiracion.style.borderBottom = "3px solid #0CBF50"
+            fechaValidado = true
+        }
+    }
+    divInputsTarjeta.appendChild(inputFechaExpiracion)
+
+    const labelCodigoSeguridad = document.createElement("label")
+    labelCodigoSeguridad.htmlFor = "codigo-seguridad"
+    labelCodigoSeguridad.textContent = "Codigo de seguridad: "
+    divInputsTarjeta.appendChild(labelCodigoSeguridad)
+
+    const inputCodigoSeguridad = document.createElement("input")
+    inputCodigoSeguridad.placeholder = "123"
+    inputCodigoSeguridad.oninput = () => {
+        if (inputCodigoSeguridad.value.length !== 3 || inputCodigoSeguridad.value === "" || isNaN(inputCodigoSeguridad.value) === true) {
+            inputCodigoSeguridad.style.borderBottom = "3px solid red"
+            codigoValidado = false
+        } else {
+            inputCodigoSeguridad.style.borderBottom = "3px solid #0CBF50"
+            codigoValidado = true
+        }
+    }
+    divInputsTarjeta.appendChild(inputCodigoSeguridad)
+
+    const botonPagar = document.createElement("button")
+    botonPagar.textContent = "Pagar"
+    botonPagar.classList.add("boton-pagar")
+    botonPagar.addEventListener("click", () => {
+        if (nombreValidado === true && tarjetaValidada === true && fechaValidado === true && codigoValidado === true) {
+            console.log("tu compra ha sido exitosa")
+        } else {
+            Toastify({
+
+                text: "Ha ocurrido un error. Revisa los datos ingresados",
+                duration: 3000,
+                close: true,
+                style: {
+                    background: "red"
+                }
+
+            }).showToast();
+        }
+    })
+    divInputsTarjeta.appendChild(botonPagar)
+
+    main.appendChild(divInputsTarjeta)
+} 
 
 
