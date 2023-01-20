@@ -4,6 +4,10 @@ const carritoDeComprasSvg = document.querySelector(".shopping-cart-svg");
 const productosDiv = document.querySelector(".productos");
 const main = document.querySelector("main")
 const textoProductos = document.querySelector("#nav-productos-texto");
+const inputNombre = document.querySelector("#nombre")
+const inputEmail = document.querySelector("#email")
+const inputTextArea = document.querySelector("#consulta")
+const form = document.querySelector("form")
 
 // funcionalidad modo oscuro
 
@@ -542,7 +546,7 @@ function eliminarProducto(e) {
         divTotalCarrito.classList.add("carrito-total-div")
 
         const textoPrecioTotal = document.createElement("p")
-        textoPrecioTotal.innerHTML = `<span>Precio total:</span> ${Math.round(calcularPrecioTotal())}`
+        textoPrecioTotal.innerHTML = `<span>Precio total:</span> $${Math.round(calcularPrecioTotal())}`
         divTotalCarrito.appendChild(textoPrecioTotal)
 
         const botonPagar = document.createElement("button")
@@ -576,6 +580,8 @@ function calcularPrecioTotal() {
     console.log(precioTotal)
     return precioTotal
 }
+
+// seccion inputs tarjeta /////////////////////////////////
 
 function renderInputsTarjeta() {
     const tituloInputsTarjeta = document.createElement("h1")
@@ -669,7 +675,23 @@ function renderInputsTarjeta() {
     botonPagar.classList.add("boton-pagar")
     botonPagar.addEventListener("click", () => {
         if (nombreValidado === true && tarjetaValidada === true && fechaValidado === true && codigoValidado === true) {
-            console.log("tu compra ha sido exitosa")
+            localStorage.clear("carrito")
+            localStorage.setItem("carrito", JSON.stringify([]))
+            main.innerHTML = ""
+            const textoCompra = document.createElement("h1")
+            textoCompra.id = "texto-compra-exitosa"
+            textoCompra.textContent = "Gracias por tu compra!"
+            main.appendChild(textoCompra)
+            Toastify({
+                text: "Tu compra ha sido exitosa!",
+                duration: 3000,
+                close: true,
+                gravity: "bottom",
+                position: "center",
+                style: {
+                    background: "#0CBF50"
+                }
+            }).showToast();
         } else {
             Toastify({
 
@@ -686,6 +708,75 @@ function renderInputsTarjeta() {
     divInputsTarjeta.appendChild(botonPagar)
 
     main.appendChild(divInputsTarjeta)
-} 
+}
+
+let nombreFooterValidado = false;
+let emailValidado = false;
+let textAreaValidado = false;
+
+inputEmail.oninput = () => {
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
+    if (inputEmail.value === "" || regex.test(inputEmail.value) === false) {
+        inputEmail.style.borderBottom = "3px solid red"
+        emailValidado = false
+    } else {
+        inputEmail.style.borderBottom = "3px solid #0CBF50"
+        emailValidado = true
+    }
+}
+
+inputNombre.oninput = () => {
+    if (inputNombre.value !== "") {
+        nombreFooterValidado = true
+        inputNombre.style.borderBottom = "3px solid #0CBF50"
+    } else {
+        nombreFooterValidado = false
+        inputNombre.style.borderBottom = "3px solid red"
+    }
+}
+
+inputTextArea.oninput = () => {
+    if (inputTextArea.value !== "" && inputTextArea.value.length > 20) {
+        textAreaValidado = true
+        inputTextArea.style.border = "3px solid #0CBF50"
+    } else {
+        textAreaValidado = false
+        inputTextArea.style.border = "3px solid red"
+    }
+}
+
+
+
+form.onsubmit = (e) => {
+    
+
+    if (emailValidado === true && nombreFooterValidado === true && textAreaValidado === true) {
+        Toastify({
+            text: "Cosulta enviada!",
+            duration: 3000,
+            close: true,
+            gravity: "bottom",
+            position: "center",
+            style: {
+                background: "#0CBF50"
+            }
+        }).showToast();
+    } else {
+        e.preventDefault()
+        Toastify({
+
+            text: "Ha ocurrido un error. Revisa los datos ingresados",
+            duration: 3000,
+            close: true,
+            style: {
+                background: "red"
+            }
+
+        }).showToast();
+    }
+
+
+}
 
 
