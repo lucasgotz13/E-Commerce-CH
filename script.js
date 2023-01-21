@@ -675,7 +675,7 @@ function renderInputsTarjeta() {
     botonPagar.classList.add("boton-pagar")
     botonPagar.addEventListener("click", () => {
         if (nombreValidado === true && tarjetaValidada === true && fechaValidado === true && codigoValidado === true) {
-            localStorage.clear("carrito")
+            localStorage.removeItem("carrito")
             localStorage.setItem("carrito", JSON.stringify([]))
             main.innerHTML = ""
             const textoCompra = document.createElement("h1")
